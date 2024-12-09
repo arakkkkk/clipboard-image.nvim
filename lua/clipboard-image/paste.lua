@@ -21,7 +21,6 @@ M.paste_img = function(opts, smart)
 
   local content = utils.get_clip_content(cmd_check)
   if utils.is_clipboard_img(content) ~= true then
-    vim.notify("There is no image data in clipboard", vim.log.levels.INFO)
     if smart then
       local clipboad_txt = vim.fn.getreg '"'
       local clipboad_lines = {}
