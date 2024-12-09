@@ -8,13 +8,8 @@ M.config = {
       return os.date "%Y-%m-%d-%H-%M-%S"
     end,
     img_handler = function(img) end,
-    affix = "%s",
-  },
-  asciidoc = {
-    affix = "image::%s[]",
-  },
-  markdown = {
-    affix = "![](%s)",
+    insert_txt = "![$IMG_NAME]($IMG_PATH)",
+    use_forward_slash = true,
   },
 }
 
@@ -58,7 +53,8 @@ end
 ---@return table loaded_config
 M.load_config = function(config_toload)
   return {
-    affix = M.load_opt(config_toload.affix),
+    use_forward_slash = M.load_opt(config_toload.use_forward_slash),
+    insert_txt = M.load_opt(config_toload.insert_txt),
     img_name = M.load_opt(config_toload.img_name),
     img_dir = M.load_opt(config_toload.img_dir),
     img_dir_txt = M.load_opt(config_toload.img_dir_txt),

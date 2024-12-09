@@ -1,3 +1,20 @@
+This repository is a fork of `ekickx/clipboard-image.nvim`.   
+It includes the following improvements:
+- Fixed the `module 'health' not found` issue.
+- Adjusted file paths on Windows to use `/` instead of `\`.
+- Improved `affix` functionality.
+- Removed the `affix` option and introduced a new `insert_txt` option:
+  - This allows customization of the pasted text as shown below:
+    ```lua
+    require("clipboard-image").setup({
+        default = {
+            ...
+            insert_txt = "![$IMG_NAME]($IMG_PATH)",
+        },
+    })
+    ```
+- Added the `use_forward_slash` option to ensure paths use `/` instead of `\` on Windows.
+
 <div align="center">
 
 ## Clipboard Image 📋🖼️

@@ -7,9 +7,8 @@ M.get_os = function()
     return "Windows"
   end
 
-  local this_os =  tostring(io.popen("uname"):read())
-  if this_os == "Linux" and
-      vim.fn.readfile("/proc/version")[1]:lower():match "microsoft" then
+  local this_os = tostring(io.popen("uname"):read())
+  if this_os == "Linux" and vim.fn.readfile("/proc/version")[1]:lower():match "microsoft" then
     this_os = "Wsl"
   end
   return this_os
@@ -63,7 +62,7 @@ M.is_clipboard_img = function(content)
     return true
   elseif this_os == "Darwin" and string.sub(content[1], 1, 9) == "iVBORw0KG" then -- Magic png number in base64
     return true
-  elseif this_os == "Windows" or this_os == "Wsl" and content ~= nil then
+  elseif (this_os == "Windows" or this_os == "Wsl") and content ~= nil and #content ~= 0 then
     return true
   end
   return false
@@ -115,13 +114,16 @@ M.get_img_path = function(dir, img_name, is_txt)
   return dir .. img
 end
 
----Insert image's path with affix
----TODO: Probably need better description
-M.insert_txt = function(affix, path_txt)
+M.insert_txt = function(insert_txt, img_name, path_txt, use_forward_slash)
+  if use_forward_slash then
+    path_txt = path_txt:gsub("\\", "/")
+  end
   local curpos = vim.fn.getcurpos()
   local line_num, line_col = curpos[2], curpos[3]
   local indent = string.rep(" ", line_col)
-  local txt_topaste = string.format(affix, path_txt)
+  local txt_topaste = insert_txt
+  txt_topaste = txt_topaste:gsub("%$IMG_NAME", img_name)
+  txt_topaste = txt_topaste:gsub("%$IMG_PATH", path_txt)
 
   ---Convert txt_topaste to lines table so it can handle multiline string
   local lines = {}

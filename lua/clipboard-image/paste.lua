@@ -29,7 +29,7 @@ M.paste_img = function(opts)
     utils.create_dir(conf.img_dir)
     paste_img_to(path)
 
-    utils.insert_txt(conf.affix, path_txt)
+    utils.insert_txt(conf.insert_txt, conf.img_name, path_txt, conf.use_forward_slash)
 
     if type(conf.img_handler) == "function" then
       conf.img_handler {
