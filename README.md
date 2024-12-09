@@ -14,6 +14,7 @@ It includes the following improvements:
     })
     ```
 - Added the `use_forward_slash` option to ensure paths use `/` instead of `\` on Windows.
+- Created the `PasteImgSmarter` command, which saves the clipboard content if it contains an image or pastes the content directly if it is text.
 
 <div align="center">
 

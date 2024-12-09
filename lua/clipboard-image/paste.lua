@@ -8,7 +8,11 @@ local paste_img_to = function(path)
   os.execute(string.format(cmd_paste, path))
 end
 
-M.paste_img = function(opts)
+M.paste_img_smarter = function(opts)
+  M.paste_img(opts, true)
+end
+
+M.paste_img = function(opts, smart)
   local is_dep_exist, deps_msg = check_dependency()
   if not is_dep_exist then
     vim.notify(deps_msg, vim.log.levels.ERROR)
@@ -17,7 +21,17 @@ M.paste_img = function(opts)
 
   local content = utils.get_clip_content(cmd_check)
   if utils.is_clipboard_img(content) ~= true then
-    vim.notify("There is no image data in clipboard", vim.log.levels.ERROR)
+    vim.notify("There is no image data in clipboard", vim.log.levels.INFO)
+    if smart then
+      local clipboad_txt = vim.fn.getreg '"'
+      local clipboad_lines = {}
+      for l in clipboad_txt:gmatch "[^\n]+" do
+        table.insert(clipboad_lines, l)
+      end
+      vim.api.nvim_put(clipboad_lines, "c", true, true)
+    else
+      vim.notify("There is no image data in clipboard", vim.log.levels.ERROR)
+    end
   else
     local conf_toload = conf_utils.get_usable_config()
     conf_toload = conf_utils.merge_config(conf_toload, opts)
