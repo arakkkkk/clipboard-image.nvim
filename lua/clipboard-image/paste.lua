@@ -22,12 +22,7 @@ M.paste_img = function(opts, smart)
   local content = utils.get_clip_content(cmd_check)
   if utils.is_clipboard_img(content) ~= true then
     if smart then
-      local clipboad_txt = vim.fn.getreg '"'
-      local clipboad_lines = {}
-      for l in clipboad_txt:gmatch "[^\n]+" do
-        table.insert(clipboad_lines, l)
-      end
-      vim.api.nvim_put(clipboad_lines, "c", true, true)
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("p", true, true, true), "n", true)
     else
       vim.notify("There is no image data in clipboard", vim.log.levels.ERROR)
     end
